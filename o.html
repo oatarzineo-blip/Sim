@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tenho algo pra te mostrar…</title>
+<meta name="description" content="Um pequeno convite para algo especial." />
+<style>
+:root{
+--bg:#0b0b10; --card:#13131a; --text:#f5f7fb; --muted:#b8c0d0;
+--accent:#76e0ff; --accent2:#a78bfa; --radius:22px; --shadow:rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+color:var(--text); background:
+radial-gradient(1100px 1100px at 20% -10%, rgba(118,224,255,.12), transparent 60%),
+radial-gradient(1100px 1100px at 120% 10%, rgba(167,139,250,.14), transparent 55%),
+linear-gradient(180deg, #0a0a0f, #12121a);
+display:grid; place-items:center; overflow:hidden;
+}
+.stars{position:fixed; inset:0; pointer-events:none; z-index:0}
+.star{position:absolute; width:2px; height:2px; background:linear-gradient(90deg, #fff, transparent); opacity:.8; animation:shoot 6s linear infinite}
+@keyframes shoot{from{transform:translateX(0) translateY(0)} to{transform:translateX(100vw) translateY(-60vh); opacity:0}}
+
+
+.card{position:relative; z-index:1; max-width:min(720px, 92vw); padding:28px; border-radius:var(--radius);
+background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+border:1px solid rgba(255,255,255,.08); box-shadow:0 18px 40px var(--shadow);
+text-align:center}
+h1{margin:6px 0 10px; font-size:clamp(28px, 5vw, 44px)}
+p{margin:0 auto 18px; color:var(--muted); max-width:60ch}
+
+
+.btn{appearance:none; border:none; cursor:pointer; font-weight:700; letter-spacing:.2px;
+padding:14px 18px; border-radius:14px; font-size:16px; display:inline-flex; align-items:center; gap:10px;
+background:linear-gradient(90deg, var(--accent), var(--accent2)); color:#0b0b10; box-shadow:0 12px 26px rgba(118,224,255,.25)}
+.btn:hover{transform:translateY(-1px)}
+.hint{display:flex; justify-content:center; gap:6px; align-items:center; color:var(--muted); font-size:14px}
+.arrow{display:inline-block; animation:bounce 1.2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)}}
+
+
+.countdown{font-variant-numeric:tabular-nums; font-weight:700; margin:10px 0 0}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+
+<div class="card">
+<h1>Tenho algo pra te mostrar… ✨</h1>
+<p>É rapidinho e especial. Quando estiver pronta(o), clique no botão abaixo para abrir.</p>
+
+
+<button class="btn" id="openBtn" aria-label="Abrir surpresa">
+Abrir agora
+<span class="arrow">➜</span>
+</button>
+
+
+<div class="hint" style="margin-top:12px;">
+ou espere <span class="countdown" id="count">05</span> s que eu levo você.
+</div>
+</div>
+
+
+<script>
+// 🌠 Estrelinhas de fundo
+const sky = document.getElementById('stars');
+for(let i=0;i<24;i++){
+const s=document.createElement('div'); s.className='star';
+s.style.top=Math.random()*100+'vh'; s.style.left=Math.random()*100+'vw';
+s.style.animationDelay=(Math.random()*5)+'s'; s.style.opacity=(.35+Math.random()*.6);
+s.style.height = s.style.width = (1+Math.random()*2)+'px';
+sky.appendChild(s);
+}
+
+
+// 🎯 Configurar o link de destino (nome do arquivo da página da declaração)
+const DESTINO = 'index.html'; // renomeie se for diferente
+
+
+// ⏱️ Contagem e redirecionamento automático
+const countEl = document.getElementById('count');
+let t = 5; countEl.textContent = String(t).padStart(2,'0');
+const tick = setInterval(()=>{
+t--; countEl.textContent = String(t).padStart(2,'0');
+if(t<=0){ clearInterval(tick); window.location.href = DESTINO; }
+},1000);
+
+
+// 🖱️ Clique do botão
+document.getElementById('openBtn').addEventListener('click', ()=>{
+window.location.href = DESTINO;
+});
+</script>
+</body>
+</html>
